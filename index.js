@@ -26,6 +26,7 @@ app.set('port', process.env.SERVER_PORT || '3005')
 app.engine('html', require('ejs').renderFile)
 app.set('view engine', 'html')
 app.set('views', path.join(__dirname, 'views'))
+app.use(express.static('views/build'))
 
 // sequelize
 //     .sync({ force: false })
