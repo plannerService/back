@@ -36,14 +36,14 @@ jobs:
                   aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
                   aws-region: ap-northeast-2
 
-            - name: commitid
-              run: |
-                  git_hash=$(git rev-parse --short "$GITHUB_SHA")
-                  echo $git_hash
+            # - name: commitid
+            #   run: |
+            #       git_hash=$(git rev-parse "$GITHUB_SHA")
+            #       echo $git_hash
 
-            # - name: Deploy with AWS codeDeploy
-            #   run: aws deploy create-deployment
-            #       --application-name plannerService_back
-            #       --deployment-config-name CodeDeployDefault.OneAtATime
-            #       --deployment-group-name plannerService-Group-back
-            #       --github-location repository=https://github.com/plannerService/back.git,commitId="fdsfsd"
+            - name: Deploy with AWS codeDeploy
+              run: aws deploy create-deployment
+                  --application-name plannerService_back
+                  --deployment-config-name CodeDeployDefault.OneAtATime
+                  --deployment-group-name plannerService-Group-back
+                  --github-location repository=https://github.com/plannerService/back.git,commitId="$GITHUB_SHA"
