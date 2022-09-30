@@ -1,0 +1,49 @@
+name: deploy
+
+on:
+    push:
+        branches: [master]
+    pull_request:
+        branches: [master]
+
+jobs:
+    build:
+        runs-on: ubuntu-18.04
+
+        strategy:
+            matrix:
+                node-version: [16.15.1]
+
+        steps:
+            - name: Checkout source code.
+              uses: actions/checkout@v2
+
+            - name: Use Node.js ${{ matrix.node-version }}
+              uses: actions/setup-node@v2
+              with:
+                  node-version: ${{ matrix.node-version }}
+
+            - name: Create env file
+              working-directory: ./
+              run: |
+                  pwd
+                  touch .env
+
+            - name: AWS configure credentials
+              uses: aws-actions/configure-aws-credentials@v1
+              with:
+                  aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                  aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+                  aws-region: ap-northeast-2
+
+            - name: commitid
+              run: |
+                  git_hash=$(git rev-parse --short "$GITHUB_SHA")
+                  echo $git_hash
+
+            # - name: Deploy with AWS codeDeploy
+            #   run: aws deploy create-deployment
+            #       --application-name plannerService_back
+            #       --deployment-config-name CodeDeployDefault.OneAtATime
+            #       --deployment-group-name plannerService-Group-back
+            #       --github-location repository=https://github.com/plannerService/back.git,commitId="fdsfsd"
