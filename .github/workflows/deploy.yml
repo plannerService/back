@@ -46,4 +46,4 @@ jobs:
                   --application-name plannerService_back
                   --deployment-config-name CodeDeployDefault.OneAtATime
                   --deployment-group-name plannerService-Group-back
-                  --github-location repository=https://github.com/plannerService/back.git,commitId="$GITHUB_SHA"
+                  --github-location repository=plannerService/back,commitId="$GITHUB_SHA"
