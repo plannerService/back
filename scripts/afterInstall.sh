@@ -9,4 +9,4 @@ echo "> docker-compose build 실행"
 sudo docker-compose up --build -d
 
 echo "> <none> <none> image 삭제"
-sudo docker image prune -a
+sudo docker image prune -f
